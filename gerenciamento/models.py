@@ -4,11 +4,13 @@ from enumfields import EnumField
 class Paciente(models.Model):
     nome_completo = models.CharField(max_digits = 255, null = False, blank = False)
     cpf = models.CharField(max_digits = 255, null = False, blank = False)
-    email = models.EmailField(max_length=254, unique=True, null=False, blank=False)
+    email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
     senha = models.CharField(max_length=255, blank=False, null=False)
     data_nasc = models.DateField()
     telefone = models.CharField(max_digits = 255, unique=True, null = False, blank = False)
     endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, blank=True, null = True)
+    consulta = models.ManyToManyField("Consulta",on_delete=models.SET_NULL ,verbose_name=("consulta_paciente"))
+    
 
 class EstadoEnum(models.TextChoices):
     ACRE = 'AC', 'Acre'
@@ -48,3 +50,29 @@ class Endereco(models.Model):
     bairro = models.CharField(max_length=255, null=False, blank=False)
     rua = models.CharField(max_length=40, null=False, blank=False)
     numero_casa = models.IntegerField(null=True)
+    
+class Medico(models.Model):
+    crm_estado = EnumField(EstadoEnum, max_length=2)
+    crm_digito = models.CharField(max_length=6, null=False, blank=False)
+    especialidade = models.CharField(max_length=255, null=False, blank=False)
+    nome_completo = models.CharField(max_digits = 255, null = False, blank = False)
+    consulta = models.ManyToManyField("Consulta",on_delete=models.SET_NULL ,verbose_name=("consulta_medico"))
+    
+class Coordenador(models.Model):
+    nome_completo = models.CharField(max_digits = 255, null = False, blank = False)
+    email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
+    senha = models.CharField(max_length=255, blank=False, null=False)
+    telefone = models.CharField(max_digits = 255, unique=True, null = False, blank = False)
+
+class Moderador(models.Model):
+    cpf = models.CharField(max_digits = 255, null = False, blank = False)
+    nome_completo = models.CharField(max_digits = 255, null = False, blank = False)
+    email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
+    senha = models.CharField(max_length=255, blank=False, null=False)
+    telefone = models.CharField(max_digits = 255, unique=True, null = False, blank = False)
+    
+class Consulta(models.Model):
+    data = models.DateField()
+    hora = models.TimeField()
+    paciente = models.ForeignKey(Paciente, verbose_name=_("paciente_consulta"), on_delete=models.CASCADE)
+    medico = models.ForeignKey(Medico, verbose_name=_("medico_consulta"), on_delete=models.CASCADE)
