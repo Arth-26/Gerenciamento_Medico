@@ -22,3 +22,23 @@ class PacienteSerializer(serializers.ModelSerializer):
        models = Paciente
        fields = ['cpf', 'email', 'data_nasc', 'nome_completo', 'telefone', 'endereco']
        
+class EnderecoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        models = Endereco
+        fields = "__all__"
+
+class ModeradorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        models = Moderador
+        fields = "__all__"
+        
+class CoordenadorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        models = Coordenador
+        fields = "__all__"
+        
+
+       
