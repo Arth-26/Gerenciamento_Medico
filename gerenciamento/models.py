@@ -11,7 +11,7 @@ class Paciente(models.Model):
     endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, blank=True, null = True, related_name = 'endereco_paciente')
     consulta = models.ManyToManyField("Consulta", blank=True, null=True, related_name="consulta_paciente")
 
-    
+
 
 class EstadoEnum(models.TextChoices):
     ACRE = 'AC', 'Acre'
@@ -42,6 +42,7 @@ class EstadoEnum(models.TextChoices):
     SERGIPE = 'SE', 'Sergipe'
     TOCANTINS = 'TO', 'Tocantins'
 
+
 class Endereco(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, blank=True, related_name='endereco_paciente')
     cep = models.CharField(max_length=9, null=True, blank=True)
@@ -51,6 +52,7 @@ class Endereco(models.Model):
     bairro = models.CharField(max_length=255, null=False, blank=False)
     rua = models.CharField(max_length=40, null=False, blank=False)
     numero_casa = models.IntegerField(null=True)
+    
     
 class Medico(models.Model):
     crm_estado = EnumField(EstadoEnum, max_length=2)
@@ -66,12 +68,14 @@ class Coordenador(models.Model):
     senha = models.CharField(max_length=255, blank=False, null=False)
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
 
+
 class Moderador(models.Model):
     cpf = models.CharField(max_length = 255, null = False, blank = False)
     nome_completo = models.CharField(max_length = 255, null = False, blank = False)
     email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
     senha = models.CharField(max_length=255, blank=False, null=False)
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
+    
     
 class Consulta(models.Model):
     data = models.DateField()
