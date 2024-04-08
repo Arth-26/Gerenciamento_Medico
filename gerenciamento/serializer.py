@@ -2,43 +2,42 @@ from rest_framework import serializers
 from gerenciamento.models import *
 from gerenciamento.validators import *
 
-class ConsultaSerializer(serializers.ModelSerializer):
-    
+
+class BaseUserSerializer(serializers.ModelSerializer):
     class Meta:
-        models = Consulta
-        fields = "__all__"
+        model = CustomUser
+        fields = ['username', 'last_name', 'email', 'password']
+    
+
+class ConsultaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Consulta
+        fields = '__all__'
 
 class MedicoSerializer(serializers.ModelSerializer):
     Consulta = ConsultaSerializer(many=True, read_only=True)
     
     class Meta:
-        models = Medico
-        fields = "__all__"
+        model = Medico
+        fields = '__all__'
         
 class PacienteSerializer(serializers.ModelSerializer):
    Consulta = ConsultaSerializer(many=True, read_only=True)
    
    class Meta:
-       models = Paciente
+       model = Paciente
        fields = ['cpf', 'email', 'data_nasc', 'nome_completo', 'telefone', 'endereco']
        
 class EnderecoSerializer(serializers.ModelSerializer):
     
     class Meta:
-        models = Endereco
-        fields = "__all__"
-
-class ModeradorSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        models = Moderador
-        fields = "__all__"
+        model = Endereco
+        fields = '__all__'
         
 class CoordenadorSerializer(serializers.ModelSerializer):
-    
     class Meta:
-        models = Coordenador
-        fields = "__all__"
+        model = Coordenador
+        fields = '__all__'
         
 
        

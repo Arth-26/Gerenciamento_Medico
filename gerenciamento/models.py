@@ -1,17 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from enumfields import EnumField
 
+class CustomUser(AbstractUser, PermissionsMixin):
+    username = models.CharField(max_length=50, null=False, blank=False)
+    last_name = models.CharField(max_length=50, null=False, blank=False)
+    email = models.EmailField(max_length=254, unique=True, null=False, blank=False)
+    password = models.CharField(max_length=255, blank=False, null=False)
+
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    
 class Paciente(models.Model):
-    nome_completo = models.CharField(max_length = 255, null = False, blank = False)
+    nome = models.CharField(max_length = 255, null = False, blank = False)
+    sobrenome = models.CharField(max_length = 255, null = False, blank = False)
     cpf = models.CharField(max_length = 255, null = False, blank = False)
     email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
-    senha = models.CharField(max_length=255, blank=False, null=False)
+    password = models.CharField(max_length=255, blank=False, null=False)
     data_nasc = models.DateField()
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
-    endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, blank=True, null = True, related_name = 'endereco_paciente')
-    consulta = models.ManyToManyField("Consulta", blank=True, null=True, related_name="consulta_paciente")
-
-
+    endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, null = True, related_name = 'endereco_paciente')
+    consulta = models.ManyToManyField('Consulta', related_name='consulta_paciente')
 
 class EstadoEnum(models.TextChoices):
     ACRE = 'AC', 'Acre'
@@ -63,20 +73,13 @@ class Medico(models.Model):
 
     
 class Coordenador(models.Model):
-    nome_completo = models.CharField(max_length = 255, null = False, blank = False)
+    nome = models.CharField(max_length = 255, null = False, blank = False)
+    sobrenome = models.CharField(max_length = 255, null = False, blank = False)
     email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
-    senha = models.CharField(max_length=255, blank=False, null=False)
+    password = models.CharField(max_length=255, blank=False, null=False) 
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
+ 
 
-
-class Moderador(models.Model):
-    cpf = models.CharField(max_length = 255, null = False, blank = False)
-    nome_completo = models.CharField(max_length = 255, null = False, blank = False)
-    email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
-    senha = models.CharField(max_length=255, blank=False, null=False)
-    telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
-    
-    
 class Consulta(models.Model):
     data = models.DateField()
     hora = models.TimeField()
