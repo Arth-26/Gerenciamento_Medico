@@ -1,0 +1,23 @@
+JSON COORDENADOR 
+
+{
+    "nome": "Nome do Coordenador",
+    "sobrenome": "Sobrenome do Coordenador",
+    "email": "exemplo@exemplo.com",
+    "password": "senha_secreta",
+    "telefone": "123456789"
+}
+
+
+JSON PACIENTE
+
+{
+    "nome": "Nome do Paciente",
+    "sobrenome": "Sobrenome do Paciente",
+    "cpf": "123.456.789-00",
+    "codigo_sus": "12345678900",
+    "email": "exemplo@exemplo.com",
+    "password": "senha_secreta",
+    "data_nasc": "1990-01-01",
+    "telefone": "123456789"
+}

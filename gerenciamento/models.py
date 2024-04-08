@@ -16,6 +16,7 @@ class Paciente(models.Model):
     nome = models.CharField(max_length = 255, null = False, blank = False)
     sobrenome = models.CharField(max_length = 255, null = False, blank = False)
     cpf = models.CharField(max_length = 255, null = False, blank = False)
+    codigo_sus = models.CharField(max_length = 255, null = False, blank = False)
     email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
     password = models.CharField(max_length=255, blank=False, null=False)
     data_nasc = models.DateField()
