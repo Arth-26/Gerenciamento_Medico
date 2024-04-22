@@ -26,7 +26,7 @@ class PacienteSerializer(serializers.ModelSerializer):
    
    class Meta:
        model = Paciente
-       fields = ['cpf', 'email', 'data_nasc', 'nome_completo', 'telefone', 'endereco']
+       fields = '__all__'
        
 class EnderecoSerializer(serializers.ModelSerializer):
     
