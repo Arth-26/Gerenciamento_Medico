@@ -28,6 +28,6 @@ router.register('pacientes', PacienteViewSet, basename= 'Pacientes')
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('token/', TokenObtainPairView.as_view()),
+    path('login/', TokenObtainPairView.as_view()),
     path('token/refresh', TokenRefreshView.as_view())
 ]
