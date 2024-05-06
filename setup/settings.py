@@ -90,9 +90,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gerenciamento_medico',
-        'USER': 'postgres',
-        'PASSWORD': '#Thevo123',
-        'HOST': 'localhost',
+        'USER': 'gerenciamento_medico_user',
+        'PASSWORD': '#lCageH1LJmUTpcKg05NC04ZSCTbuEAJj',
+        'HOST': 'dpg-cos04tnsc6pc73durmqg-a',
         'PORT': '5432',
     }
 }
