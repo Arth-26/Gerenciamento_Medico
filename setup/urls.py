@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from gerenciamento.views import CoordenadorViewSet, PacienteViewSet
+from gerenciamento.views import *
 
 router = routers.DefaultRouter()
 router.register('coordenadores', CoordenadorViewSet, basename= 'Coordenadores')
 router.register('pacientes', PacienteViewSet, basename= 'Pacientes')
+router.register('medicos', MedicoViewSet, basename= 'Medicos')
+router.register('agendas', AgendaViewSet, basename= 'Agendas')
 
 
 urlpatterns = [

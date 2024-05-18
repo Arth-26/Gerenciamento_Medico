@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from enumfields import EnumField
+from django.contrib.auth.hashers import make_password
 
 class CustomUser(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=50, null=False, blank=False)
@@ -22,7 +23,13 @@ class Paciente(models.Model):
     data_nasc = models.DateField()
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
     endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, null = True, related_name = 'endereco_paciente')
-    consulta = models.ManyToManyField('Consulta', null=True, related_name='consulta_paciente')
+    consulta = models.ManyToManyField('Consulta', related_name='consulta_paciente')
+
+    def save(self, *args, **kwargs):
+        # Antes de salvar, criptografe a senha usando make_password
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
 
 class EstadoEnum(models.TextChoices):
     ACRE = 'AC', 'Acre'
@@ -53,7 +60,6 @@ class EstadoEnum(models.TextChoices):
     SERGIPE = 'SE', 'Sergipe'
     TOCANTINS = 'TO', 'Tocantins'
 
-
 class Endereco(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, blank=True, related_name='endereco_paciente')
     cep = models.CharField(max_length=9, null=True, blank=True)
@@ -63,26 +69,45 @@ class Endereco(models.Model):
     bairro = models.CharField(max_length=255, null=False, blank=False)
     rua = models.CharField(max_length=40, null=False, blank=False)
     numero_casa = models.IntegerField(null=True)
-    
-    
+       
 class Medico(models.Model):
     crm_estado = EnumField(EstadoEnum, max_length=2)
     crm_digito = models.CharField(max_length=6, null=False, blank=False)
     especialidade = models.CharField(max_length=255, null=False, blank=False)
     nome_completo = models.CharField(max_length = 255, null = False, blank = False)
-    consulta = models.ManyToManyField("Consulta", blank=True, null=True, related_name="consulta_medico")
-
-    
+    consulta = models.ManyToManyField("Consulta", related_name="consulta_medico")
+    agenda = models.ManyToManyField("Agenda", related_name="horario_medico")
+   
 class Coordenador(models.Model):
     nome = models.CharField(max_length = 255, null = False, blank = False)
     sobrenome = models.CharField(max_length = 255, null = False, blank = False)
     email = models.EmailField(max_length=255, unique=True, null=False, blank=False)
     password = models.CharField(max_length=255, blank=False, null=False) 
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
- 
+
+    def save(self, *args, **kwargs):
+        # Antes de salvar, criptografe a senha usando make_password
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
 
 class Consulta(models.Model):
     data = models.DateField()
+    dia = models.CharField(max_length = 40, blank = False, null = False)
     hora = models.TimeField()
     paciente = models.ForeignKey(Paciente, verbose_name=("paciente_consulta"), on_delete=models.CASCADE, related_name= 'paciente_consulta')
     medico = models.ForeignKey(Medico, verbose_name=("medico_consulta"), on_delete=models.CASCADE, related_name = 'medico_consulta')
+
+class Agenda(models.Model):
+    DIA = (('SEGUNDA', 'Segunda-feira'),
+            ('TERCA', 'Terça-feira'),
+            ('QUARTA', 'Quarta-feira'),
+            ('QUINTA', 'Quinta-feira'),
+            ('SEXTA', 'Sexta-feira'),
+            ('SABADO', 'Sábado'),
+            ('DOMINGO', 'Domingo'),)
+    dia = models.CharField(max_length = 40, choices = DIA, blank = False, null = False)
+    data = models.DateField()
+    horario_inicio = models.TimeField()
+    horario_fim = models.TimeField()
+    medico = models.ForeignKey("Medico", on_delete=models.CASCADE, related_name='medico_horario')

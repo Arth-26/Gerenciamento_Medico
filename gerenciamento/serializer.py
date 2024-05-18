@@ -9,14 +9,21 @@ class BaseUserSerializer(serializers.ModelSerializer):
         fields = ['username', 'last_name', 'email', 'password']
     
 
+class AgendaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Agenda
+        fields = '__all__'
+
+
 class ConsultaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consulta
         fields = '__all__'
 
 class MedicoSerializer(serializers.ModelSerializer):
-    Consulta = ConsultaSerializer(many=True, read_only=True)
-    
+    consulta = ConsultaSerializer(many=True, read_only=True)
+    agenda = AgendaSerializer(many=True, read_only=True)
+
     class Meta:
         model = Medico
         fields = '__all__'

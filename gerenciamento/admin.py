@@ -31,6 +31,12 @@ class Consultas(admin.ModelAdmin):
     search_fields = ('paciente', 'medico ', 'data', 'hora')
     list_per_page = 10
 
+class Agendas(admin.ModelAdmin):
+    list_display = ('dia', 'medico', 'horario_inicio', 'horario_fim')
+    list_display_links = ('dia', 'medico', 'horario_inicio', 'horario_fim')
+    search_fields = ('dia', 'medico', 'horario_inicio', 'horario_fim')
+    list_per_page = 10
+
 class Enderecos(admin.ModelAdmin):
     list_display = ('id', 'cep', 'pais', 'estado', 'cidade', 'bairro', 'rua', 'numero_casa', 'paciente')
     list_display_links = ('cep', 'id')

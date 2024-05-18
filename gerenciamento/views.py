@@ -1,5 +1,5 @@
-from .models import Coordenador, Paciente, CustomUser
-from .serializer import PacienteSerializer, CoordenadorSerializer
+from .models import *
+from .serializer import *
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from django.contrib.auth.models import Group
@@ -59,6 +59,7 @@ class PacienteViewSet(viewsets.ModelViewSet):
     """Exibindo todos os Pacientes"""
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -102,3 +103,15 @@ class PacienteViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class MedicoViewSet(viewsets.ModelViewSet):
+    """Exibindo todos os Medico"""
+    queryset = Medico.objects.all()
+    serializer_class = MedicoSerializer
+    permission_classes = [IsAuthenticated]
+
+class AgendaViewSet(viewsets.ModelViewSet):
+    """Exibindo Agenda dos medicos"""
+    queryset = Agenda.objects.all()
+    serializer_class = AgendaSerializer
+    permission_classes = [IsAuthenticated]
