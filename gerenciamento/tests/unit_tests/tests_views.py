@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from rest_framework import status
-from ..models import Coordenador, Paciente, Endereco
+from ...models import Coordenador, Paciente, Endereco
 
 
 
@@ -24,6 +24,7 @@ class CoordenadorViewSetTestCase(TestCase):
             'sobrenome': 'Coordenador',
             'email': 'coordenador@example.com',
             'password': 'testpassword',
+            'telefone': '123456789',
         }
         response = self.client.post('/coordenadores/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -50,24 +51,16 @@ class PacienteViewSetTestCase(TestCase):
 
     def test_create_paciente(self):
         data = {
-            'nome': 'Teste',
-            'sobrenome': 'Paciente',
-            'cpf': '12345678900',  # Adicione um CPF válido
-            'codigo_sus': '12345678900',  # Adicione um código SUS válido
-            'email': 'paciente@example.com',
-            'password': 'testpassword',
-            'data_nasc': '2000-01-01',  # Adicione uma data de nascimento válida
-            'telefone': '123456789',  # Adicione um telefone válido
-            'endereco': {  # Adicione um endereço válido
-                'cep': '12345678',
-                'pais': 'Brasil',
-                'estado': 'SP',
-                'cidade': 'São Paulo',
-                'bairro': 'Bairro',
-                'rua': 'Rua',
-                'numero_casa': 123
-            }
+            "nome": "test",
+            "sobrenome": "testes",
+            "cpf": "12312312345",
+            "codigo_sus": "13231",
+            "email": "teste@testes.com",
+            "password": "123456",
+            "data_nasc": "1999-01-01",
+            "telefone": "123456612"
         }
+
         response = self.client.post('/pacientes/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Paciente.objects.count(), 1)
@@ -79,18 +72,7 @@ class PacienteViewSetTestCase(TestCase):
             password='testpassword', data_nasc='2000-01-01',
             telefone='123456789'
         )
-        endereco_data = {
-            'paciente': paciente,  # Adicionando o paciente ao objeto Endereco
-            'cep': '12345678',
-            'pais': 'Brasil',
-            'estado': 'SP',
-            'cidade': 'São Paulo',
-            'bairro': 'Bairro',
-            'rua': 'Rua',
-            'numero_casa': 123
-        }
-        endereco = Endereco.objects.create(**endereco_data)
-        paciente.endereco = endereco
+
         paciente.save()
         response = self.client.delete(f'/pacientes/{paciente.id}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
