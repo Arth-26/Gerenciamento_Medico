@@ -11,7 +11,7 @@ class CoordenadorViewSet(viewsets.ModelViewSet):
     """Exibindo todos os Coordenadors"""
     queryset = Coordenador.objects.all()
     serializer_class = CoordenadorSerializer
-    permission_classes = [IsAuthenticated]
+    
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -59,7 +59,7 @@ class PacienteViewSet(viewsets.ModelViewSet):
     """Exibindo todos os Pacientes"""
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
-    permission_classes = [IsAuthenticated]
+    
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -108,7 +108,7 @@ class MedicoViewSet(viewsets.ModelViewSet):
     """Exibindo todos os Medico"""
     queryset = Medico.objects.all()
     serializer_class = MedicoSerializer
-    permission_classes = [IsAuthenticated]
+    
 
 class AgendaViewSet(viewsets.ModelViewSet):
     """Exibindo Agenda dos medicos"""

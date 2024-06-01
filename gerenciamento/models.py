@@ -23,7 +23,7 @@ class Paciente(models.Model):
     data_nasc = models.DateField()
     telefone = models.CharField(max_length = 255, unique=True, null = False, blank = False)
     endereco = models.OneToOneField('Endereco', on_delete=models.SET_NULL, null = True, related_name = 'endereco_paciente')
-    consulta = models.ManyToManyField('Consulta', related_name='consulta_paciente')
+    consulta = models.ManyToManyField('Consulta', related_name='consulta_paciente', null = True, blank = True)
 
     def save(self, *args, **kwargs):
         # Antes de salvar, criptografe a senha usando make_password

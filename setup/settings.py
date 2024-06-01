@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gerenciamento_medico',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'NAME': 'gerenciamento_medico_rnz8',
+        'USER': 'gerenciamento_medico_user',
+        'PASSWORD': 'nApoToBQonRxLRLpqSfZLuBrrhcDAfA4',
+        'HOST': 'dpg-cp5507i1hbls73fa9ocg-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
