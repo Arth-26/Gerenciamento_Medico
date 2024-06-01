@@ -115,3 +115,9 @@ class AgendaViewSet(viewsets.ModelViewSet):
     queryset = Agenda.objects.all()
     serializer_class = AgendaSerializer
     permission_classes = [IsAuthenticated]
+
+class ConsultaViewSet(viewsets.ModelViewSet):
+    """Exibindo Agenda dos medicos"""
+    queryset = Consulta.objects.all()
+    serializer_class =ConsultaSerializer
+    permission_classes = [IsAuthenticated]
