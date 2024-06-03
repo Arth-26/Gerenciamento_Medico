@@ -25,6 +25,7 @@ router.register('coordenadores', CoordenadorViewSet, basename= 'Coordenadores')
 router.register('pacientes', PacienteViewSet, basename= 'Pacientes')
 router.register('medicos', MedicoViewSet, basename= 'Medicos')
 router.register('agendas', AgendaViewSet, basename= 'Agendas')
+router.register('consultas', AgendaViewSet, basename= 'Consultas')
 
 
 urlpatterns = [
